@@ -1,0 +1,102 @@
+/* Login + Register — builds on style.css (variables, fonts, navbar, .btn) */
+
+.logo { text-decoration:none; color:var(--ink); }
+
+.auth-wrap {
+  min-height:calc(100vh - 80px);
+  display:flex; align-items:center; justify-content:center;
+  padding:40px 18px;
+}
+
+.auth-card {
+  position:relative; width:100%; max-width:440px;
+  background:var(--card); border:2px solid var(--border);
+  padding:34px 32px 28px; box-shadow:5px 5px 0 rgba(27,42,74,0.1);
+  animation:fadeIn 0.3s ease;
+}
+/* thin inner rule, like a certificate border */
+.auth-card::before {
+  content:""; position:absolute; inset:5px; border:1px solid var(--paper-line); pointer-events:none;
+}
+.auth-card > * { position:relative; }
+
+.auth-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+.auth-head .doc-number { margin-bottom:14px; }
+.auth-stamp {
+  flex:none; margin-top:2px;
+  font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase; padding:3px 8px;
+  border:2px double var(--stamp-red); color:var(--stamp-red);
+  transform:rotate(5deg); opacity:0.85;
+}
+
+/* fields */
+.field { margin-bottom:16px; }
+.field label {
+  display:block; margin-bottom:6px;
+  font-family:'IBM Plex Mono', monospace; font-size:11px; font-weight:600;
+  text-transform:uppercase; letter-spacing:1px; color:var(--ink-soft);
+}
+.field input {
+  width:100%; background:var(--paper); border:2px solid var(--border); color:var(--ink);
+  padding:11px 12px; font-family:'Inter', sans-serif; font-size:14px; transition:0.15s;
+}
+.field input:focus { outline:none; background:#fff; border-bottom:3px solid var(--stamp-green); }
+.field.invalid input { border-color:var(--stamp-red); }
+
+.field-error, .form-error {
+  font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.5px;
+  text-transform:uppercase; color:var(--stamp-red);
+}
+.field-error { margin-top:6px; }
+.field-error:empty, .form-error:empty { display:none; }
+.form-error {
+  border:2px solid var(--stamp-red); padding:9px 12px; margin:4px 0 14px; transform:rotate(-0.6deg);
+}
+
+/* password show / hide */
+.pw-wrap { position:relative; }
+.pw-wrap input { padding-right:68px; }
+.pw-toggle {
+  position:absolute; right:7px; top:50%; transform:translateY(-50%);
+  font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:600;
+  text-transform:uppercase; letter-spacing:0.5px;
+  background:transparent; border:1px solid var(--border); color:var(--ink-soft);
+  padding:5px 8px; cursor:pointer; transition:0.15s;
+}
+.pw-toggle:hover { background:var(--ink); color:var(--paper); }
+
+/* strength meter */
+.meter { display:flex; gap:4px; margin-top:8px; }
+.meter i { flex:1; height:5px; border:1px solid var(--border); background:transparent; transition:0.15s; }
+.meter[data-level="1"] i:nth-child(-n+1) { background:var(--stamp-red); }
+.meter[data-level="2"] i:nth-child(-n+2) { background:#8A6A1F; }
+.meter[data-level="3"] i:nth-child(-n+3) { background:var(--stamp-green); }
+.meter[data-level="4"] i               { background:var(--stamp-green); }
+.meter-label {
+  margin-top:5px; font-family:'IBM Plex Mono', monospace; font-size:10px;
+  text-transform:uppercase; letter-spacing:1px; color:var(--ink-soft); min-height:12px;
+}
+
+/* checkbox row */
+.check {
+  display:flex; align-items:center; gap:10px; margin:2px 0 16px; cursor:pointer;
+  font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase;
+  letter-spacing:1px; color:var(--ink-soft);
+}
+
+.btn-block { width:100%; padding:13px 18px; margin-top:4px; }
+.btn:disabled { opacity:0.6; cursor:wait; }
+.btn:disabled:hover { background:var(--ink); color:var(--paper); }
+
+.auth-alt {
+  margin-top:22px; padding-top:16px; border-top:1px dashed var(--border);
+  font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.5px; color:var(--ink-soft);
+}
+.auth-alt a { color:var(--stamp-green); font-weight:600; }
+.auth-alt a:hover { color:var(--ink); }
+
+@media (max-width:640px) {
+  .auth-wrap { min-height:auto; padding:28px 14px; align-items:flex-start; }
+  .auth-card { padding:26px 20px 22px; }
+}

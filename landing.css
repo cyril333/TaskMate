@@ -1,0 +1,167 @@
+/* =========================================================
+   Task-Mate landing — two stacked layers.
+   .layer-dark  = cover (always there, real links)
+   .layer-paper = same content in the app's paper theme,
+                  masked to a circle that follows the cursor
+   Tune the effect in landing.js (radius) and below (edge softness).
+   ========================================================= */
+
+body.landing { background:#1B2A4A; }
+
+.world { position:relative; overflow:hidden; isolation:isolate; }
+
+/* ---------- colour tokens per layer ---------- */
+.layer-dark {
+  --bg:#1B2A4A; --fg:#F3EEE1; --fg-soft:#B7BDD0; --line:rgba(243,238,225,.55);
+  --rule:rgba(243,238,225,.06); --card:rgba(243,238,225,.05);
+  --accent:#8FCB9B; --danger:#E89A9A; --warn:#E3C46F; --shadow:rgba(0,0,0,.28);
+  position:relative; z-index:1;
+}
+.layer-paper {
+  --bg:#F3EEE1; --fg:#1B2A4A; --fg-soft:#44527A; --line:#1B2A4A;
+  --rule:#E0D6BF; --card:#FBF8F0;
+  --accent:#2F5D3A; --danger:#8B2E2E; --warn:#8A6A1F; --shadow:rgba(27,42,74,.1);
+}
+.layer {
+  color:var(--fg);
+  background:
+    repeating-linear-gradient(to bottom, transparent, transparent 31px, var(--rule) 32px),
+    var(--bg);
+}
+
+/* ---------- the reveal mask ----------
+   --x / --y / --r are set every frame by landing.js.
+   Solid up to 84% of the radius, then a soft edge to 100%. */
+.reveal {
+  position:absolute; inset:0; z-index:2; pointer-events:none;
+  -webkit-mask-image:radial-gradient(circle var(--r,1px) at var(--x,50vw) var(--y,40vh), #000 0, #000 84%, transparent 100%);
+          mask-image:radial-gradient(circle var(--r,1px) at var(--x,50vw) var(--y,40vh), #000 0, #000 84%, transparent 100%);
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+}
+/* reduced motion: just show the paper theme, no mask */
+.world.static .reveal { -webkit-mask-image:none; mask-image:none; }
+
+/* ---------- cursor ring ---------- */
+.ring {
+  position:fixed; left:0; top:0; z-index:60; pointer-events:none;
+  width:0; height:0; border:2px dashed #F3EEE1; border-radius:50%;
+  mix-blend-mode:difference; transition:opacity .2s; will-change:transform;
+}
+.ring.away { opacity:0; }
+
+/* ---------- layout ---------- */
+.content {
+  --gutter:max(22px, calc((100% - 1080px) / 2));
+  min-height:100vh; display:flex; flex-direction:column;
+}
+
+.lp-nav {
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  padding:14px var(--gutter); background:var(--card); border-bottom:6px double var(--line);
+}
+.lp-nav .logo span { color:var(--accent); }
+.lp-nav .form-tag { color:var(--fg-soft); border-color:var(--line); }
+.lp-links { display:flex; gap:8px; }
+
+.lp-doc {
+  display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:1.5px;
+  text-transform:uppercase; color:var(--fg-soft); border-bottom:1px dashed var(--line); padding-bottom:6px;
+}
+
+/* ---------- buttons ---------- */
+.lp-btn {
+  display:inline-block; font-family:'IBM Plex Mono', monospace; text-transform:uppercase; letter-spacing:1px;
+  font-weight:600; font-size:12px; padding:11px 18px; border:2px solid var(--fg);
+  text-decoration:none; cursor:pointer; transition:.15s;
+}
+.lp-btn.primary { background:var(--fg); color:var(--bg); }
+.lp-btn.ghost   { background:transparent; color:var(--fg); }
+.lp-btn.primary:hover, .lp-btn.primary.hover { background:transparent; color:var(--fg); }
+.lp-btn.ghost:hover,   .lp-btn.ghost.hover   { background:var(--fg); color:var(--bg); }
+.lp-btn:focus-visible, .lp-btn.focus { outline:3px solid var(--accent); outline-offset:3px; }
+
+/* ---------- hero ---------- */
+.lp-hero {
+  flex:1; display:grid; grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:48px; align-items:center; padding:64px var(--gutter) 48px;
+}
+.lp-title {
+  font-family:'Fraunces', serif; font-weight:700; font-size:clamp(38px, 6vw, 66px);
+  line-height:1.04; letter-spacing:-.5px; margin:18px 0 16px;
+}
+.lp-accent {
+  text-decoration:underline; text-decoration-color:var(--accent);
+  text-decoration-thickness:4px; text-underline-offset:7px;
+}
+.lp-lede { color:var(--fg-soft); font-size:17px; line-height:1.6; max-width:46ch; margin-bottom:26px; }
+.lp-cta { display:flex; gap:10px; flex-wrap:wrap; }
+.lp-hint {
+  margin-top:24px; font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:1px;
+  text-transform:uppercase; color:var(--fg-soft);
+}
+.lp-hint::before {
+  content:""; display:inline-block; width:10px; height:10px; margin-right:8px; vertical-align:-1px;
+  border:1.5px dashed currentColor; border-radius:50%;
+}
+
+/* ---------- specimen card ---------- */
+.lp-specimen {
+  background:var(--card); border:2px solid var(--line); padding:20px;
+  box-shadow:5px 5px 0 var(--shadow); transform:rotate(1.2deg);
+}
+.lp-rows { list-style:none; margin-top:14px; display:flex; flex-direction:column; gap:10px; }
+.lp-rows li {
+  display:flex; align-items:center; gap:12px; padding:11px 12px;
+  border:1.5px solid var(--line); background:var(--card);
+}
+.lp-rows li > div { flex:1; min-width:0; }
+.lp-box {
+  width:18px; height:18px; flex:none; border:2px solid var(--fg); font-size:12px; line-height:1;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+.lp-box.on { background:var(--fg); color:var(--bg); }
+.lp-row-title { font-weight:500; font-size:14px; }
+.is-done .lp-row-title { text-decoration:line-through; opacity:.5; }
+.lp-meta { display:flex; gap:8px; flex-wrap:wrap; margin-top:5px; }
+.lp-tag {
+  font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:600; letter-spacing:.5px;
+  text-transform:uppercase; padding:3px 7px; border:1px solid currentColor; color:var(--fg-soft);
+}
+.lp-tag.high { color:var(--danger); }
+.lp-tag.med  { color:var(--warn); }
+.lp-tag.low  { color:var(--accent); }
+.lp-stamp {
+  flex:none; display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase; padding:3px 8px;
+  border:2px double var(--accent); color:var(--accent); transform:rotate(-4deg);
+}
+
+/* ---------- feature cards ---------- */
+.lp-cards {
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px;
+  padding:24px var(--gutter) 64px;
+}
+.lp-card {
+  background:var(--card); border:2px solid var(--line); padding:20px; box-shadow:3px 3px 0 var(--shadow);
+}
+.lp-card h2 { font-family:'Fraunces', serif; font-size:20px; font-weight:600; margin:12px 0 8px; }
+.lp-card p { color:var(--fg-soft); font-size:14px; line-height:1.55; }
+
+/* ---------- footer ---------- */
+.lp-foot {
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  padding:16px var(--gutter); border-top:1px dashed var(--line);
+  font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:1px;
+  text-transform:uppercase; color:var(--fg-soft);
+}
+
+/* ---------- mobile ---------- */
+@media (max-width:860px) {
+  .lp-hero { grid-template-columns:1fr; gap:36px; padding-top:40px; }
+  .lp-specimen { transform:none; }
+}
+@media (max-width:520px) {
+  .lp-btn { padding:10px 14px; }
+  .lp-links { width:100%; }
+  .lp-links .lp-btn { flex:1; text-align:center; }
+}

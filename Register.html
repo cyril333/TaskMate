@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Task-Mate — Register</title>
+<script src="auth.js" data-page="register"></script>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="auth.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <a class="logo" href="index.html">Task<span>Mate</span><div class="form-tag">FORM TM-003</div></a>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="index.html" class="nav-btn">Home</a>
+        <a href="login.html" class="nav-btn">Login</a>
+        <a href="register.html" class="nav-btn active">Register</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="auth-wrap">
+    <section class="auth-card">
+      <div class="auth-head">
+        <div>
+          <div class="doc-number">SEC. R — NEW REGISTRANT</div>
+          <h1>Register</h1>
+        </div>
+        <span class="auth-stamp">In triplicate</span>
+      </div>
+      <p class="subtitle">Open a ledger of your own. It takes a minute.</p>
+
+      <form id="registerForm" novalidate>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input type="text" id="name" autocomplete="name" placeholder="Juan Dela Cruz" aria-describedby="nameErr">
+          <p class="field-error" id="nameErr" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" autocomplete="email" placeholder="you@example.com" aria-describedby="emailErr">
+          <p class="field-error" id="emailErr" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="password" autocomplete="new-password" placeholder="At least 8 characters" aria-describedby="passwordErr">
+            <button type="button" class="pw-toggle" data-target="password" aria-pressed="false">Show</button>
+          </div>
+          <div class="meter" id="meter" data-level="0" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <p class="meter-label" id="meterLabel"></p>
+          <p class="field-error" id="passwordErr" aria-live="polite"></p>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <div class="pw-wrap">
+            <input type="password" id="confirm" autocomplete="new-password" placeholder="Type it again" aria-describedby="confirmErr">
+            <button type="button" class="pw-toggle" data-target="confirm" aria-pressed="false">Show</button>
+          </div>
+          <p class="field-error" id="confirmErr" aria-live="polite"></p>
+        </div>
+
+        <p class="form-error" id="formErr" role="alert"></p>
+        <button type="submit" class="btn btn-block" id="submitBtn">File registration</button>
+      </form>
+
+      <p class="auth-alt">Already registered? <a href="login.html">Log in</a></p>
+    </section>
+  </main>
+
+</body>
+</html>
